@@ -11,16 +11,16 @@ import { signIn } from "next-auth/react";
 import { trpc } from "@/app/api/_trpc/client";
 
 const signupSchema = z.object({
-  email: z.string().email("Enter a valid email address"),
+  email: z.string().email("invaid_email"),
   password: z
     .string()
-    .min(8, "8 to 40 characters")
-    .max(40, "8 to 40 characters")
+    .min(8, "too_small")
+    .max(40, "too_big")
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$/,
-      "Letters, numbers and special characters"
+      "format_error"
     ),
-  otp: z.string().length(6, "Enter the 6-digit code"),
+  otp: z.string().length(6, "length_error"),
 });
 
 const InputAuth = ({
@@ -42,6 +42,7 @@ const InputAuth = ({
   return (
     <input
       name={name}
+      type={type}
       onFocus={() => setOnFocus(name)}
       onBlur={() => setOnFocus(undefined)}
       {...props}
@@ -65,18 +66,17 @@ const SignUp = () => {
     setform((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
   const [errorFormValidate, setErrorFormValidate] = useState<
-    { message: string; code: ZodIssueCode }[]
+    { message: string }[]
   >([]);
   useEffect(() => {
     const val = signupSchema.safeParse(form);
     if (!val.success) {
       setErrorFormValidate(
-        val.error.issues.map((i) => ({ message: i.message, code: i.code }))
+        val.error.issues.map((i) => ({ message: i.message }))
       );
     } else {
       setErrorFormValidate([]);
     }
-    console.log(errorFormValidate);
   }, [form]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -129,9 +129,13 @@ const SignUp = () => {
             name="email"
             id="email"
           />
-          <p className="text-red-500 font-normal text-xs">
-            Enter a valid email address
-          </p>
+          {onFocus !== "email" &&
+            form.email.length > 0 &&
+            errorFormValidate.find((e) => e.message === "invaid_email") && (
+              <p className="text-red-500 font-normal text-xs">
+                Enter a valid email address
+              </p>
+            )}
 
           <p className="font-normal text-xs">
             You have registered,
@@ -155,7 +159,7 @@ const SignUp = () => {
               name="password"
               id="password"
             />
-            <p>{passwordType}</p>
+
             <button
               tabIndex={-1}
               type="button"
@@ -173,22 +177,36 @@ const SignUp = () => {
               )}
             </button>
           </div>
-
-          <p className="font-medium text-sm">Your password must include:</p>
-          <p
-            className={`inline-flex space-x-2 items-center text-gray-500 text-green-400`}
-          >
-            <AiOutlineCheck size={12} />
-            <span className="font-normal text-xs">8 to 20 characters</span>
-          </p>
-          <p
-            className={`inline-flex space-x-2 items-center text-gray-500 text-green-400`}
-          >
-            <AiOutlineCheck size={12} />
-            <span className="font-normal text-xs">
-              Letters, numbers and special characters
-            </span>
-          </p>
+          {onFocus !== "password" && form.password.length > 0 && (
+            <>
+              <p className="font-medium text-sm">Your password must include:</p>
+              <p
+                className={`inline-flex space-x-2 items-center ${
+                  errorFormValidate.filter(
+                    (e) =>
+                      (e.message === "too_small") | (e.message === "too_big")
+                  ).length > 0
+                    ? "text-gray-500"
+                    : "text-green-400"
+                } `}
+              >
+                <AiOutlineCheck size={12} />
+                <span className="font-normal text-xs">8 to 20 characters</span>
+              </p>
+              <p
+                className={`inline-flex space-x-2 items-center ${
+                  !errorFormValidate.find((e) => e.message === "format_error")
+                    ? "text-green-400"
+                    : "text-gray-500"
+                }`}
+              >
+                <AiOutlineCheck size={12} />
+                <span className="font-normal text-xs">
+                  Letters, numbers and special characters
+                </span>
+              </p>
+            </>
+          )}
         </div>
 
         <div className="flex flex-col mb-10">
@@ -196,16 +214,14 @@ const SignUp = () => {
             Code
           </label>
           <div className="border rounded-md overflow-hidden flex items-center ">
-            <input
-              maxLength={6}
-              minLength={6}
+            <InputAuth
+              setOnFocus={setOnFocus}
               value={form.otp}
               onChange={handleOnchange}
-              type="otp"
+              className="flex-grow p-2"
+              type="text"
               name="otp"
               id="otp"
-              autoCapitalize="false"
-              className="flex-grow p-2"
             />
 
             <p className="border-l p-2 w-14 text-center opacity-50">30s</p>
