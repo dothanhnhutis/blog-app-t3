@@ -13,7 +13,7 @@ model User {
   email     String   @unique
   password  String
   avatarUrl String
-  role      Role     @default(ADMIN)
+  role      Role     @default(SUBSCRIBER)
   status    Status   @default(ACTIVE)
   createAt  DateTime @default(now())
   updateAt  DateTime @updatedAt
@@ -33,6 +33,7 @@ model Otp {
 enum Role {
   ADMIN
   POSTER
+  SUBSCRIBER
 }
 
 enum Status {

@@ -6,10 +6,14 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
+import InputAuth from "@/app/_components/InputAuth";
 
 const SignIn = () => {
   const router = useRouter();
-  const [isHiddenPassword, setIsHiddenPassword] = React.useState<boolean>(true);
+
+  const [passwordType, setpasswordType] = useState<"password" | "text">(
+    "password"
+  );
   const [alert, setAlert] = React.useState<{ show: boolean; message: string }>({
     show: false,
     message: "",
@@ -77,14 +81,14 @@ const SignIn = () => {
           <label className="text-base font-medium pb-1" htmlFor="email">
             Email
           </label>
-          <input
+
+          <InputAuth
+            className="p-2 border rounded-md overflow-hidden"
             value={form.email}
             onChange={handleOnchange}
             type="email"
             name="email"
             id="email"
-            autoCapitalize="false"
-            className="p-2 border rounded-md overflow-hidden"
           />
         </div>
 
@@ -93,22 +97,25 @@ const SignIn = () => {
             Password
           </label>
           <div className="flex p-2 border rounded-md overflow-hidden space-x-2">
-            <input
+            <InputAuth
               value={form.password}
               onChange={handleOnchange}
               className="flex-grow"
-              type={isHiddenPassword ? "password" : "text"}
+              type={passwordType}
               name="password"
               id="password"
-              autoCapitalize="false"
             />
             <button
               tabIndex={-1}
               type="button"
               className="text-gray-600"
-              onClick={() => setIsHiddenPassword(!isHiddenPassword)}
+              onClick={() =>
+                setpasswordType(
+                  passwordType === "password" ? "text" : "password"
+                )
+              }
             >
-              {isHiddenPassword ? (
+              {passwordType === "password" ? (
                 <PiEyeClosedBold size={20} />
               ) : (
                 <PiEyeBold size={20} />

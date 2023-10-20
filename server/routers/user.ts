@@ -26,8 +26,13 @@ export const userRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      const user = await ctx.prisma.user.findUnique({
+        where: { email: input.email },
+      });
+      if (user) return false;
       const otp = await ctx.prisma.otp.findUnique({
         where: {
+          verified: false,
           code_email: {
             code: input.otp,
             email: input.email,
@@ -35,8 +40,9 @@ export const userRouter = router({
         },
       });
       if (!otp) return false;
+
       const hash = hashPassword(input.password);
-      const user = await ctx.prisma.user.create({
+      const newUser = await ctx.prisma.user.create({
         data: {
           email: input.email,
           password: hash,
@@ -44,6 +50,12 @@ export const userRouter = router({
           avatarUrl: "",
         },
       });
-      return user;
+      await ctx.prisma.otp.update({
+        where: { id: otp.id },
+        data: {
+          verified: true,
+        },
+      });
+      return true;
     }),
 });

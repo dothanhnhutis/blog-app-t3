@@ -4,7 +4,6 @@ import GitbubProvider from "next-auth/providers/github";
 import jsonwebtoken from "jsonwebtoken";
 import { JWT } from "next-auth/jwt";
 import { AdapterUser } from "next-auth/adapters";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import { comparePassword } from "@/util";
 import { NextAuthOptions, User, getServerSession } from "next-auth";
 
@@ -13,7 +12,6 @@ import { LoginSubmit, SessionInterface } from "@/common.type";
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
-  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       type: "credentials",
@@ -28,8 +26,8 @@ export const authOptions: NextAuthOptions = {
           user.password &&
           (await comparePassword(user.password, data.password))
         )
-          return null;
-        return user;
+          return user;
+        return null;
       },
     }),
     GoogleProvider({
@@ -61,11 +59,10 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ user }: { user: AdapterUser | User }) {
-      try {
-        const userExist = await prisma.user.findUnique({
-          where: { email: user.email! },
-        });
-        if (userExist) return false;
+      const userExist = await prisma.user.findUnique({
+        where: { email: user.email! },
+      });
+      if (!userExist)
         await prisma.user.create({
           data: {
             email: user.email!,
@@ -74,11 +71,7 @@ export const authOptions: NextAuthOptions = {
             avatarUrl: user.image!,
           },
         });
-        return true;
-      } catch (error: any) {
-        console.log("Error checking if user exists: ", error.message);
-        return false;
-      }
+      return true;
     },
     async session({ session }) {
       try {

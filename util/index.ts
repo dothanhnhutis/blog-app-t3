@@ -14,3 +14,7 @@ export const comparePassword = (
 export const generateOTPCode = () => {
   return Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
 };
+
+export function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}

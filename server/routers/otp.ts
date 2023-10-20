@@ -28,6 +28,10 @@ export const otpRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const user = await ctx.prisma.user.findUnique({
+        where: { email: input.email },
+      });
+      if (user) return false;
       const otp = await ctx.prisma.otp.findFirst({
         where: {
           verified: false,
@@ -53,14 +57,5 @@ export const otpRouter = router({
         html: `<b>code: ${code}</b>`,
       };
       return await sendMail(data);
-    }),
-  validated: publicProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      const otp = await ctx.prisma.otp.update({
-        where: { id: input },
-        data: { verified: true },
-      });
-      return otp;
     }),
 });

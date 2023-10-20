@@ -3,12 +3,13 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { AiFillGithub, AiOutlineCheck } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { ZodIssueCode, z } from "zod";
+import { z } from "zod";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 
-import { RegisterSubmit, UserProfile } from "@/common.type";
 import { signIn } from "next-auth/react";
 import { trpc } from "@/app/api/_trpc/client";
+import InputAuth from "@/app/_components/InputAuth";
+import useCountDown from "@/hook/useCountDown";
 
 const signupSchema = z.object({
   email: z.string().email("invaid_email"),
@@ -23,33 +24,6 @@ const signupSchema = z.object({
   otp: z.string().length(6, "length_error"),
 });
 
-const InputAuth = ({
-  type,
-  name,
-  setOnFocus,
-  ...props
-}: {
-  id: string;
-  name: "otp" | "email" | "password";
-  value: string;
-  className: string;
-  type: "text" | "password" | "email";
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setOnFocus: React.Dispatch<
-    React.SetStateAction<"otp" | "email" | "password" | undefined>
-  >;
-}) => {
-  return (
-    <input
-      name={name}
-      type={type}
-      onFocus={() => setOnFocus(name)}
-      onBlur={() => setOnFocus(undefined)}
-      {...props}
-    />
-  );
-};
-
 const SignUp = () => {
   const [onFocus, setOnFocus] = useState<
     "otp" | "email" | "password" | undefined
@@ -57,13 +31,14 @@ const SignUp = () => {
   const [passwordType, setpasswordType] = useState<"password" | "text">(
     "password"
   );
-  const [form, setform] = useState<z.infer<typeof signupSchema>>({
+  const [form, setForm] = useState<z.infer<typeof signupSchema>>({
     email: "",
     password: "",
     otp: "",
   });
+  const [count, setCount] = useCountDown("sms-send", form.email);
   const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setform((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
   const [errorFormValidate, setErrorFormValidate] = useState<
     { message: string }[]
@@ -77,15 +52,59 @@ const SignUp = () => {
     } else {
       setErrorFormValidate([]);
     }
+    if (
+      (form.email !== "" || form.password !== "" || form.otp !== "") &&
+      userMutation.isSuccess
+    ) {
+      userMutation.reset();
+    }
   }, [form]);
 
+  const userMutation = trpc.user.create.useMutation({
+    onSuccess: () => {
+      setForm({
+        email: "",
+        password: "",
+        otp: "",
+      });
+      otpMutation.reset();
+    },
+  });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const val = signupSchema.safeParse(form);
-    if (!val.success) console.log(val.error.issues);
+    if (val.success) {
+      userMutation.mutate({ ...form });
+    }
   };
 
-  const handleSendEmail = async () => {};
+  useEffect(() => {
+    setisExistEmail(false);
+  }, [form.email]);
+
+  const [isExistEmail, setisExistEmail] = useState(false);
+
+  const handleSendEmail = async () => {
+    otpMutation.mutate({ email: form.email, type: "SIGNINUP" });
+  };
+
+  const otpMutation = trpc.otp.create.useMutation({
+    onSuccess: (data) => {
+      if (!data) {
+        setisExistEmail(true);
+      } else {
+        setCount();
+      }
+    },
+  });
+
+  const [time, setTime] = useState<number>(0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      time - Date.now() > 0 ? setTime((prev) => prev - 1000) : setTime(0);
+    }, 1000);
+  }, [time]);
 
   return (
     <>
@@ -136,13 +155,14 @@ const SignUp = () => {
                 Enter a valid email address
               </p>
             )}
-
-          <p className="font-normal text-xs">
-            You have registered,
-            <Link className="text-red-500 text-sm" href="/auth/signin">
-              Sign in
-            </Link>
-          </p>
+          {isExistEmail && (
+            <p className="font-normal text-xs">
+              You have registered,
+              <Link className="text-red-500 text-sm" href="/auth/signin">
+                Sign in
+              </Link>
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col mb-3">
@@ -177,14 +197,13 @@ const SignUp = () => {
               )}
             </button>
           </div>
-          {onFocus !== "password" && form.password.length > 0 && (
+          {(onFocus === "password" || form.password.length > 0) && (
             <>
               <p className="font-medium text-sm">Your password must include:</p>
               <p
                 className={`inline-flex space-x-2 items-center ${
                   errorFormValidate.filter(
-                    (e) =>
-                      (e.message === "too_small") | (e.message === "too_big")
+                    (e) => e.message === "too_small" || e.message === "too_big"
                   ).length > 0
                     ? "text-gray-500"
                     : "text-green-400"
@@ -224,52 +243,67 @@ const SignUp = () => {
               id="otp"
             />
 
-            <p className="border-l p-2 w-14 text-center opacity-50">30s</p>
-
-            <div className="flex items-center justify-center space-x-1 border-l p-2 w-20 text-center opacity-50">
-              <span>Send</span>
-              <p className="h-3 w-3 border-t-transparent border-solid animate-spin rounded-full border-gray-500 border-2"></p>
-            </div>
-
-            <p className="border-l p-2 w-14 text-center opacity-50"> Send</p>
-
-            <button
-              onClick={handleSendEmail}
-              type="button"
-              className="hover:bg-slate-100 border-l p-2 w-14"
-            >
-              Send
-            </button>
+            {otpMutation.isSuccess && count > 0 ? (
+              <p className="border-l p-2 w-14 text-center opacity-50">
+                {count}s
+              </p>
+            ) : otpMutation.isLoading ? (
+              <div className="flex items-center justify-center space-x-1 border-l p-2 w-20 text-center opacity-50">
+                <span>Send</span>
+                <p className="h-3 w-3 border-t-transparent border-solid animate-spin rounded-full border-gray-500 border-2"></p>
+              </div>
+            ) : onFocus === "email" ||
+              !errorFormValidate.find((e) => e.message === "invaid_email") ? (
+              <button
+                onClick={handleSendEmail}
+                type="button"
+                className="hover:bg-slate-100 border-l p-2 w-14"
+              >
+                Send
+              </button>
+            ) : (
+              <p className="border-l p-2 w-14 text-center opacity-50"> Send</p>
+            )}
           </div>
 
-          <p className="text-red-500 font-normal text-xs ">
-            Enter the 6-digit code
-          </p>
+          {onFocus !== "otp" &&
+            form.otp.length > 0 &&
+            errorFormValidate.find((e) => e.message === "length_error") && (
+              <p className="text-red-500 font-normal text-xs ">
+                Enter the 6-digit code
+              </p>
+            )}
 
-          <p className="text-red-500 font-normal text-xs ">
-            Email verification code has expired
-          </p>
-
-          <p className="text-green-400 font-normal text-xs ">
-            Successful account registration
-          </p>
+          {userMutation.isSuccess && (
+            <p
+              className={`${
+                userMutation.data ? "text-green-400" : "text-red-500"
+              } font-normal text-xs `}
+            >
+              {userMutation.data
+                ? "Successful account registration"
+                : "Email verification code has expired"}
+            </p>
+          )}
         </div>
 
-        <div className="flex items-center justify-center space-x-1 rounded-lg bg-[#5d87ff] text-white py-2 w-full text-center opacity-60">
-          <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
-          <span>Processing...</span>
-        </div>
-
-        <button
-          type="submit"
-          className="rounded-lg bg-[#5d87ff] text-white py-2 w-full"
-        >
-          Sign Up
-        </button>
-
-        <p className="rounded-lg bg-[#5d87ff] text-white py-2 w-full text-center opacity-60">
-          Sign Up
-        </p>
+        {userMutation.isLoading ? (
+          <div className="flex items-center justify-center space-x-1 rounded-lg bg-[#5d87ff] text-white py-2 w-full text-center opacity-60">
+            <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
+            <span>Processing...</span>
+          </div>
+        ) : signupSchema.safeParse(form).success ? (
+          <button
+            type="submit"
+            className="rounded-lg bg-[#5d87ff] text-white py-2 w-full"
+          >
+            Sign Up
+          </button>
+        ) : (
+          <p className="rounded-lg bg-[#5d87ff] text-white py-2 w-full text-center opacity-60">
+            Sign Up
+          </p>
+        )}
       </form>
 
       <div className="flex items-center justify-center space-x-2 mt-6">
