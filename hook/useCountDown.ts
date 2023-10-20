@@ -41,9 +41,11 @@ const useCountDown = (
   };
 
   return [
+    typeof window !== "undefined" &&
+    JSON.parse(window.localStorage.getItem(storageKey) ?? "{}") &&
     JSON.parse(window.localStorage.getItem(storageKey) ?? "{}")[value] -
       Date.now() >
-    0
+      0
       ? Math.round(
           (JSON.parse(window.localStorage.getItem(storageKey) ?? "{}")[value] -
             Date.now()) /
