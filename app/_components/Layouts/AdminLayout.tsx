@@ -6,7 +6,7 @@ import { SessionInterface } from "@/common.type";
 import { MdOutlineNotificationsActive } from "react-icons/md";
 import UserMenu from "../UserMenu";
 import SideBar from "../SideBar";
-
+import LogoImage from "@/images/logo.png";
 const AdminLayout = ({
   children,
   session,
@@ -18,14 +18,12 @@ const AdminLayout = ({
     <div className="relative bg-white h-screen overflow-hidden ">
       <header className="h-[70px] flex items-center sticky top-0 left-0 right-0 bg-white z-[9]">
         <div className="flex items-center justify-between px-6 w-full">
-          <Link href="/manager" className="relative w-[56px] h-[56px]">
-            <Image
-              priority={true}
-              src="/images/logo.png"
-              sizes="56"
-              fill
-              alt="I.C.H logo"
-            />
+          <Link
+            href="/manager"
+            prefetch={false}
+            className="relative w-[56px] h-[56px]"
+          >
+            <Image priority src={LogoImage} alt="I.C.H logo" />
           </Link>
 
           <div className="flex items-center justify-center space-x-2">

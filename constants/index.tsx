@@ -200,42 +200,43 @@ export const whyToBook: {
       "Khách hàng được trải nghiệm mẫu thử, tuỳ chỉnh theo yêu cầu mong muốn mà không áp dụng thu phí.",
   },
 ];
-
+import DauGoi from "@/images/dau-goi.jpg";
+import Serum from "@/images/serum.jpg";
 export const products = [
   {
     id: 1,
     title: "Kem",
-    image: "/images/dau-goi.jpg",
+    image: DauGoi,
     link: "",
   },
   {
     id: 2,
     title: "Nước Hoa",
-    image: "/images/serum.jpg",
+    image: Serum,
     link: "",
   },
-  {
-    id: 3,
-    title: "Sửa Rửa Mặt",
-    image: "/images/kem-b5.jpg",
-    link: "",
-  },
-  {
-    id: 4,
-    title: "Serum",
-    image: "/images/kem-b5.jpg",
-    link: "",
-  },
-  {
-    id: 5,
-    title: "Dầu Gọi",
-    image: "/images/product4.png",
-    link: "",
-  },
-  {
-    id: 6,
-    title: "Mặt Nạ",
-    image: "/images/kem-body.jpg",
-    link: "",
-  },
+  // {
+  //   id: 3,
+  //   title: "Sửa Rửa Mặt",
+  //   image: "/images/kem-b5.jpg",
+  //   link: "",
+  // },
+  // {
+  //   id: 4,
+  //   title: "Serum",
+  //   image: "/images/kem-b5.jpg",
+  //   link: "",
+  // },
+  // {
+  //   id: 5,
+  //   title: "Dầu Gọi",
+  //   image: "/images/product4.png",
+  //   link: "",
+  // },
+  // {
+  //   id: 6,
+  //   title: "Mặt Nạ",
+  //   image: "/images/kem-body.jpg",
+  //   link: "",
+  // },
 ];

@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 import Image from "next/image";
 import { getServerAuthSession } from "@/server/auth";
+import LogoImage from "@/images/logo.png";
 
 const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerAuthSession();
@@ -13,13 +14,7 @@ const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
       <div className="bg-white opacity-100 shadow rounded-lg p-8 min-w-[480px]">
         <div className="flex items-center justify-center w-full">
           <div className="relative w-[110px] h-[110px]">
-            <Image
-              priority
-              src="/images/logo.png"
-              fill
-              sizes="110"
-              alt="Logo"
-            />
+            <Image priority src={LogoImage} alt="Logo" />
           </div>
         </div>
         {children}

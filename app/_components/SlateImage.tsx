@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import { Tab } from "@headlessui/react";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import Image from "next/image";
@@ -7,23 +7,8 @@ import { BsUpload } from "react-icons/bs";
 import Model, { ModelHandle } from "./Model";
 import { classNames } from "@/util";
 import { Transforms } from "slate";
-import { SlateBlockImage, SlateCustomEditor } from "@/common.type";
+import { SlateBlockImage } from "@/common.type";
 import { useSlate } from "slate-react";
-
-const insertImage = (
-  editor: SlateCustomEditor,
-  url: string,
-  caption: string
-) => {
-  const text = { text: "" };
-  const image: SlateBlockImage = {
-    type: "image",
-    url,
-    caption,
-    children: [text],
-  };
-  Transforms.insertNodes(editor, image);
-};
 
 const SlateImage = () => {
   const editor = useSlate();
@@ -33,34 +18,32 @@ const SlateImage = () => {
     image: "",
   });
 
-  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleOnchang = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    if (data.image) {
-      setData({ ...data, image: "" });
-    }
     const file = e.target.files?.[0];
-
     if (!file) return;
-
     if (!file.type.includes("image")) {
       alert("Please upload an image!");
-
       return;
     }
-
     const reader = new FileReader();
-
     reader.readAsDataURL(file);
-
     reader.onload = () => {
       const result = reader.result as string;
-      setData({ ...data, image: result });
+      setData((prev) => ({ ...prev, image: result }));
     };
   };
 
   const handleAddBtn = () => {
     if (data.caption.length > 0 && data.image.length > 0) {
-      insertImage(editor, data.image, data.caption);
+      const text = { text: "" };
+      const image: SlateBlockImage = {
+        type: "image",
+        url: data.image,
+        caption: data.caption,
+        children: [text],
+      };
+      Transforms.insertNodes(editor, image);
       ref.current?.setIsHidden(true);
       setData({
         caption: "",
@@ -120,7 +103,7 @@ const SlateImage = () => {
             <Tab.Panels>
               <Tab.Panel>
                 <label
-                  htmlFor="image-upload"
+                  htmlFor="slate-image"
                   className="flex flex-col items-center justify-center text-gray-400 py-2 cursor-pointer w-[550px] h-[300px] rounded border-dashed border-[2px] border-gray-300"
                 >
                   {!data.image && (
@@ -132,12 +115,11 @@ const SlateImage = () => {
 
                   <input
                     type="file"
-                    id="image-upload"
-                    name="image-upload"
+                    id="slate-image"
+                    name="slate-image"
                     accept="image/*"
                     className="hidden"
-                    required
-                    onChange={(e) => handleChangeImage(e)}
+                    onChange={handleOnchang}
                   />
                   {data.image && (
                     <div className="relative object-contain w-[300px] h-[300px]">

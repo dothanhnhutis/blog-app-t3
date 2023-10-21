@@ -16,7 +16,13 @@ const Footer = () => {
     <footer className="bg-gray-100">
       <section className="flex flex-col md:flex-row p-5 md:space-x-3 max-w-7xl mx-auto">
         <div className="md:basis-1/4 flex flex-col items-center">
-          <Image src="/images/logo.png" width={110} height={110} alt="Logo" />
+          <Image
+            priority
+            src="/images/logo.png"
+            width={110}
+            height={110}
+            alt="Logo"
+          />
           <p className="font-bold text-lg pb-1 text-blue-900 pt-2 text-center uppercase">
             CÔNG TY TNHH MTV TM SẢN XUẤT I.C.H
           </p>
@@ -59,6 +65,7 @@ const Footer = () => {
             </li>
             <li className="mb-2">
               <Link
+                prefetch={false}
                 href="/contact"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -71,13 +78,13 @@ const Footer = () => {
             </li>
           </ul>
           <div className="flex space-x-4 pt-4 mb-4">
-            <Link href="#">
+            <Link prefetch={false} href="#">
               <FaFacebook size={24} className="text-blue-400 hover:scale-125" />
             </Link>
-            <Link href="#">
+            <Link prefetch={false} href="#">
               <FaTwitter size={24} className="text-blue-400 hover:scale-125" />
             </Link>
-            <Link href="#">
+            <Link prefetch={false} href="#">
               <FaYoutube size={24} className="text-blue-400 hover:scale-125" />
             </Link>
           </div>
@@ -90,6 +97,7 @@ const Footer = () => {
           <ul>
             <li className="mb-2 align-middle">
               <Link
+                prefetch={false}
                 href="#"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -102,6 +110,7 @@ const Footer = () => {
             </li>
             <li className="mb-2 align-middle">
               <Link
+                prefetch={false}
                 href="#"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -114,6 +123,7 @@ const Footer = () => {
             </li>
             <li className="mb-2">
               <Link
+                prefetch={false}
                 href="#"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -126,6 +136,7 @@ const Footer = () => {
             </li>
             <li className="mb-2">
               <Link
+                prefetch={false}
                 href="#"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -138,6 +149,7 @@ const Footer = () => {
             </li>
             <li className="mb-2">
               <Link
+                prefetch={false}
                 href="#"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -150,6 +162,7 @@ const Footer = () => {
             </li>
             <li className="mb-2">
               <Link
+                prefetch={false}
                 href="#"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -169,6 +182,7 @@ const Footer = () => {
           <ul>
             <li className="mb-2 align-middle">
               <Link
+                prefetch={false}
                 href="/cosmetic-disclosure-service"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -181,6 +195,7 @@ const Footer = () => {
             </li>
             <li className="mb-2 align-middle">
               <Link
+                prefetch={false}
                 href="/barcode-registration"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -193,6 +208,7 @@ const Footer = () => {
             </li>
             <li className="mb-2">
               <Link
+                prefetch={false}
                 href="/protect-brand"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -205,6 +221,7 @@ const Footer = () => {
             </li>
             <li className="mb-2">
               <Link
+                prefetch={false}
                 href="/packaging-design"
                 className="text-gray-500 justify-self-start w-full align-middle text-base"
               >
@@ -225,17 +242,17 @@ const Footer = () => {
           </p>
           <ul className="flex sm:space-x-3 space-y-1 sm:space-y-0 flex-col sm:flex-row ">
             <li>
-              <Link href="/payment-policy">
+              <Link prefetch={false} href="/payment-policy">
                 <p className="text-white text-sm">Chính sách thanh toán</p>
               </Link>
             </li>
             <li>
-              <Link href="/warranty-policy">
+              <Link prefetch={false} href="/warranty-policy">
                 <p className="text-white text-sm">Chính sách bảo hành</p>
               </Link>
             </li>
             <li>
-              <Link href="/privacy-policy">
+              <Link prefetch={false} href="/privacy-policy">
                 <p className="text-white text-sm">Chính sách bảo mật</p>
               </Link>
             </li>

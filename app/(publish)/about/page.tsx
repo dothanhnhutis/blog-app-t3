@@ -1,4 +1,8 @@
 import Image from "next/image";
+import IntroduceImage3 from "@/images/gioi-thieu-cong-ty-3.jpg";
+import IntroduceImage4 from "@/images/gioi-thieu-cong-ty-4.jpg";
+import IntroduceImage5 from "@/images/gioi-thieu-cong-ty-5.webp";
+import CertificateImage from "@/images/giay-chung-nhan-du-dieu-kien-sx.jpg";
 const About = () => {
   return (
     <section className="bg-gray-50/50">
@@ -18,12 +22,12 @@ const About = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/gioi-thieu-cong-ty-5.webp"
-                  width={800}
-                  height={450}
+                  alt="Giới thiệu công ty"
+                  src={IntroduceImage5}
                 />
+
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Đội ngũ Dược mỹ phẩm I.C.H (doi hinh)
                 </figcaption>
@@ -90,12 +94,12 @@ const About = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/gioi-thieu-cong-ty-4.jpg"
-                  width={600}
-                  height={338}
+                  alt="Giới thiệu công ty"
+                  src={IntroduceImage4}
                 />
+
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Sứ mệnh – Tầm nhìn – Giá trị cốt lõi
                 </figcaption>
@@ -123,11 +127,10 @@ const About = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/gioi-thieu-cong-ty-5.webp"
-                  width={800}
-                  height={450}
+                  alt="Giới thiệu công ty"
+                  src={IntroduceImage5}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Đội ngũ sản xuất chuyên nghiệp cùng trang thiết bị hiện đại
@@ -178,11 +181,10 @@ const About = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/gigiay-chung-nhan-du-dieu-kien-sx.jpg"
-                  width={800}
-                  height={450}
+                  alt="Giấy chứng nhận"
+                  src={CertificateImage}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Chứng nhận đủ điều kiện sản xuất mỹ phẩm của Sở y tế
@@ -205,11 +207,10 @@ const About = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/gioi-thieu-cong-ty-5.webp"
-                  width={800}
-                  height={450}
+                  alt="Giới thiệu công ty"
+                  src={IntroduceImage5}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Hạt nam việt quốc (doi hinh)
@@ -252,11 +253,10 @@ const About = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/gioi-thieu-cong-ty-3.jpg"
-                  width={600}
-                  height={338}
+                  alt="Giới thiệu công ty"
+                  src={IntroduceImage3}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Lựa chọn bao bì sản phẩm phù hợp

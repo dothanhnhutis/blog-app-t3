@@ -1,20 +1,23 @@
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 import { AiOutlineComment, AiOutlineEye } from "react-icons/ai";
 import { PiDotOutlineLight } from "react-icons/pi";
-import { IoTrashBin } from "react-icons/io5";
-import { BsPencilFill } from "react-icons/bs";
+
+import BlogImage from "@/images/blog-img1.jpg";
+import Avatar from "@/images/user-1.jpg";
+
 const PostCard = () => {
   return (
     <div className="lg:basis-1/3 lg:max-w-1/3 sm:basis-1/2 sm:max-w-1/2 pt-6 pl-6">
       <div className="bg-white rounded-xl overflow-hidden shadow [transition:box-shadow_300ms_cubic-bezier(0.4, 0, 0.2, 1)_0ms] hover:scale-[1.01] hover:[transition:0.1s_ease-in]">
-        <Link href="">
-          <img src="/images/blog-img1.jpg" alt="mediachat" />
+        <Link prefetch={false} href="">
+          <Image priority src={BlogImage} alt="mediachat" />
         </Link>
 
         <div className="relative p-6">
           <div className="w-10 h-10 overflow-hidden rounded-full absolute -top-[20px]">
-            <img src="/images/user-1.jpg" alt="mediachat" />
+            <Image priority src={Avatar} alt="mediachat" />
           </div>
 
           <div className="absolute -top-[35px] right-6 bg-white rounded-xl">
@@ -29,6 +32,7 @@ const PostCard = () => {
           </div>
           <div className="my-6">
             <Link
+              prefetch={false}
               href=""
               className="font-semibold text-xl text-gray-600 line-clamp-3 lg:line-clamp-2"
             >

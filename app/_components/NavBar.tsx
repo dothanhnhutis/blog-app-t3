@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
+import LogoImage from "@/images/logo.png";
 import { HiMenu } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
-import { Disclosure, Popover, Transition } from "@headlessui/react";
+import { Disclosure, Transition } from "@headlessui/react";
 import { FaChevronUp } from "react-icons/fa";
 import { navbarLinks } from "@/constants";
 import { useWindowDimensions } from "@/hook/useWindowDimensions";
@@ -25,7 +26,9 @@ const NavLink = ({ type, data }: Props) => {
           {({ open }) => (
             <>
               <Disclosure.Button className="uppercase flex items-center justify-between font-medium text-sm w-full md:w-auto md:py-4 py-2 md:hover:text-blue-400 hover:bg-blue-400 hover:text-white md:hover:bg-transparent px-5 md:px-0 cursor-pointer">
-                <Link href={data.link}>{data.name}</Link>
+                <Link prefetch={false} href={data.link}>
+                  {data.name}
+                </Link>
                 <FaChevronUp
                   size={12}
                   className={`${open ? "rotate-180 transform" : ""}`}
@@ -46,6 +49,7 @@ const NavLink = ({ type, data }: Props) => {
                       data.sublinks.map((sublink, index) => (
                         <li key={index}>
                           <Link
+                            prefetch={false}
                             href={sublink.link}
                             className="md:hover:text-blue-500 font-medium text-sm flex justify-start hover:bg-blue-400 hover:text-white md:hover:bg-transparent pl-7 pr-5 py-2 md:px-0"
                           >
@@ -64,6 +68,7 @@ const NavLink = ({ type, data }: Props) => {
       return (
         <li className="flex items-center justify-start">
           <Link
+            prefetch={false}
             href={data.link}
             className="uppercase flex font-medium text-sm w-full md:w-auto md:py-4 py-2 md:hover:text-blue-400 hover:bg-blue-400 hover:text-white md:hover:bg-transparent px-5 md:px-0 cursor-pointer"
           >
@@ -94,6 +99,7 @@ const NavLink = ({ type, data }: Props) => {
             onMouseLeave={() => setIsOpen(false)}
           >
             <Link
+              prefetch={false}
               href={data.link}
               className="hover:text-blue-400 uppercase text-sm font-medium"
             >
@@ -117,6 +123,7 @@ const NavLink = ({ type, data }: Props) => {
                       data.sublinks.map((sublink, index) => (
                         <li key={index}>
                           <Link
+                            prefetch={false}
                             href={sublink.link}
                             className="md:hover:text-blue-500 font-medium text-sm flex justify-start hover:bg-blue-400 hover:text-white md:hover:bg-transparent pl-7 pr-5 py-2 md:px-0"
                           >
@@ -135,6 +142,7 @@ const NavLink = ({ type, data }: Props) => {
       return (
         <li>
           <Link
+            prefetch={false}
             href={data.link}
             className="hover:text-blue-400 uppercase text-sm font-medium"
           >
@@ -166,13 +174,8 @@ const NavBar = () => {
         </style>
       )}
       <div className="flex justify-between px-5 py-2 items-center shadow xl:shadow-none max-w-7xl mx-auto bg-white">
-        <Link href="/">
-          <Image
-            src="/images/logo.png"
-            width={64}
-            height={64}
-            alt="I.C.H logo"
-          />
+        <Link prefetch={false} href="/">
+          <Image src={LogoImage} alt="I.C.H logo" />
         </Link>
 
         <div className="hidden md:block">

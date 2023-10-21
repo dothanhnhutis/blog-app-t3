@@ -60,7 +60,7 @@ const SignUp = () => {
     }
   }, [form]);
 
-  const userMutation = trpc.user.create.useMutation({
+  const userMutation = trpc.users.create.useMutation({
     onSuccess: () => {
       setForm({
         email: "",
@@ -88,7 +88,7 @@ const SignUp = () => {
     otpMutation.mutate({ email: form.email, type: "SIGNINUP" });
   };
 
-  const otpMutation = trpc.otp.create.useMutation({
+  const otpMutation = trpc.otps.create.useMutation({
     onSuccess: (data) => {
       if (!data) {
         setisExistEmail(true);

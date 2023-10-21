@@ -3,6 +3,8 @@ import { BiUserCircle } from "react-icons/bi";
 import { BsFillShieldLockFill } from "react-icons/bs";
 import Image from "next/image";
 import Link from "next/link";
+import UserAvatar from "@/images/user-1.jpg";
+import MediaChatImage from "@/images/mediachat.png";
 const Setting = () => {
   return (
     <>
@@ -10,7 +12,7 @@ const Setting = () => {
         <h4 className="font-semibold text-2xl">Accout setting</h4>
         <h6 className="font-normal text-lg">Accout setting</h6>
         <div className="absolute right-[20px] top-0 w-[165px] h-[165px] ">
-          <img src="/images/mediachat.png" alt="mediachat" />
+          <Image priority src={MediaChatImage} alt="mediachat" />
         </div>
       </div>
 
@@ -37,12 +39,7 @@ const Setting = () => {
               </p>
               <div className="flex flex-col items-center justify-center space-y-4 mt-4 h-full">
                 <div className="relative w-[120px] h-[120px] rounded-full overflow-hidden">
-                  <Image
-                    src="/images/user-1.jpg"
-                    alt="avatar"
-                    fill
-                    sizes="120"
-                  />
+                  <Image priority src={UserAvatar} alt="avatar" />
                 </div>
                 <p className="text-xs font-normal">
                   Allowed JPG, GIF or PNG. Max size of 800K
@@ -220,6 +217,7 @@ const Setting = () => {
                   Cập nhật mật khẩu
                 </button>
                 <Link
+                  prefetch={false}
                   href=""
                   className="text-blue-500 underline text-sm font-normal"
                 >

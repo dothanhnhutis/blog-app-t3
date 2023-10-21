@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import WarrantyImage from "@/images/warranty.jpg";
 const WarrantyPolicy = () => {
   return (
     <section className="bg-gray-50/50">
@@ -44,11 +44,10 @@ const WarrantyPolicy = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/warranty.jpg"
-                  width={600}
-                  height={400}
+                  alt="Chính sách bảo hành"
+                  src={WarrantyImage}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Chính sách bảo hành tại I.C.H

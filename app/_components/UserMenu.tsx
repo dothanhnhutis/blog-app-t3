@@ -6,6 +6,8 @@ import { signOut } from "next-auth/react";
 import { Menu, Transition } from "@headlessui/react";
 import { HiOutlineMail } from "react-icons/hi";
 import { SessionInterface } from "@/common.type";
+import UserAvatar from "@/images/user-1.jpg";
+import AccountIcon from "@/svgs/icon-account.svg";
 
 const UserMenu = ({ session }: { session: SessionInterface }) => {
   return (
@@ -14,14 +16,14 @@ const UserMenu = ({ session }: { session: SessionInterface }) => {
         <div className="relative w-9 h-9 overflow-hidden rounded-full">
           <Image
             priority={false}
-            sizes="36"
-            fill
-            src={`${
-              session?.user?.avatarUrl.length > 0
-                ? session?.user?.avatarUrl
-                : "/images/user-1.jpg"
-            }`}
-            alt="avatar"
+            width={96}
+            height={96}
+            src={
+              session.user.avatarUrl === ""
+                ? UserAvatar
+                : session.user.avatarUrl
+            }
+            alt="User Avatar"
           />
         </div>
       </Menu.Button>
@@ -39,13 +41,13 @@ const UserMenu = ({ session }: { session: SessionInterface }) => {
             <div className="relative w-24 h-24 overflow-hidden rounded-full flex-shrink-0">
               <Image
                 priority={false}
-                fill
-                sizes="96"
-                src={`${
-                  session?.user?.avatarUrl.length > 0
-                    ? session?.user?.avatarUrl
-                    : "/images/user-1.jpg"
-                }`}
+                width={96}
+                height={96}
+                src={
+                  session.user.avatarUrl === ""
+                    ? UserAvatar
+                    : session.user.avatarUrl
+                }
                 alt="User Avatar"
               />
             </div>
@@ -70,12 +72,14 @@ const UserMenu = ({ session }: { session: SessionInterface }) => {
             <li>
               <Menu.Item>
                 <Link
-                  href=""
+                  prefetch={false}
+                  href="/manager/users/profile"
                   className="flex space-x-4 items-center py-4 group"
                 >
-                  <img
-                    className="p-3 bg-[#ecf2ff] rounded-lg"
-                    src="/images/svgs/icon-account.svg"
+                  <Image
+                    priority
+                    className="w-12 h-12 p-3 bg-[#ecf2ff] rounded-lg"
+                    src={AccountIcon}
                     alt="Icon Account"
                   />
                   <div>

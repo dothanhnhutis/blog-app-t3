@@ -1,5 +1,8 @@
 import Image from "next/image";
-
+import PublicImage1 from "@/images/cong-bo-my-pham-1.jpg";
+import PublicImage2 from "@/images/cong-bo-my-pham-2.jpg";
+import PublicImage3 from "@/images/cong-bo-my-pham-3.jpg";
+import CertificateImage from "@/images/giay-chung-nhan-du-dieu-kien-sx.jpg";
 const CosmeticDisclosureService = () => {
   return (
     <section className="bg-gray-50/50">
@@ -24,11 +27,10 @@ const CosmeticDisclosureService = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/cong-bo-my-pham-3.jpg"
-                  width={600}
-                  height={382}
+                  alt="Bao bì"
+                  src={PublicImage3}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Công bố mỹ phẩm là gì?
@@ -99,11 +101,10 @@ const CosmeticDisclosureService = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/cong-bo-my-pham-2.jpg"
-                  width={600}
-                  height={382}
+                  alt="Bao bì"
+                  src={PublicImage2}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Trình tự thủ tục khi nộp hồ sơ đăng ký công bố
@@ -160,11 +161,10 @@ const CosmeticDisclosureService = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/cong-bo-my-pham-1.jpg"
-                  width={600}
-                  height={382}
+                  alt="Bao bì"
+                  src={PublicImage1}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Công bố mỹ phẩm nước ngoài sẽ khó khăn hơn trong nước
@@ -256,11 +256,10 @@ const CosmeticDisclosureService = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/gigiay-chung-nhan-du-dieu-kien-sx.jpg"
-                  width={600}
-                  height={382}
+                  alt="Bao bì"
+                  src={CertificateImage}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Giấy chứng nhận đủ điều kiện sản xuất mỹ phẩm

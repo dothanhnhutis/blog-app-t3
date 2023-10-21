@@ -1,9 +1,11 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { HiOutlineFolderPlus } from "react-icons/hi2";
 import { BsPlus } from "react-icons/bs";
 import PostCard from "@/app/_components/PostCard";
+import MediaChatImage from "@/images/mediachat.png";
 
 const Posts = () => {
   return (
@@ -12,7 +14,7 @@ const Posts = () => {
         <h4 className="font-semibold text-2xl">Blog app</h4>
         <h6 className="font-normal text-lg">Get the latest news</h6>
         <div className="absolute right-[20px] top-0 w-[165px] h-[165px] ">
-          <img src="/images/mediachat.png" alt="mediachat" />
+          <Image priority src={MediaChatImage} alt="mediachat" />
         </div>
       </div>
       <div className="flex flex-col space-y-1 items-center justify-center text-gray-400">
@@ -20,6 +22,7 @@ const Posts = () => {
         <p className="text-black text-md font-medium">No posts</p>
         <p className="text-md">Get started by creating a new post.</p>
         <Link
+          prefetch={false}
           href="/manager/posts/create"
           className="flex items-center justify-center p-2 font-semibold rounded-md text-lg text-white bg-indigo-500"
         >

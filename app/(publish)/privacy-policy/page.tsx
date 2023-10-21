@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import PrivacyImage from "@/images/privacy.jpeg";
 const PrivacyPolicy = () => {
   return (
     <section className="bg-gray-50/50">
@@ -119,11 +119,10 @@ const PrivacyPolicy = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/privacy.jpeg"
-                  width={600}
-                  height={400}
+                  alt="Chính sách bảo mật"
+                  src={PrivacyImage}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Chính sách bảo mật tại I.C.H

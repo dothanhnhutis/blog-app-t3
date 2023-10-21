@@ -1,4 +1,5 @@
 import Image from "next/image";
+import PaymentImage from "@/images/payment.jpeg";
 
 const PaymentPolicy = () => {
   return (
@@ -12,11 +13,10 @@ const PaymentPolicy = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/payment.jpeg"
-                  width={960}
-                  height={500}
+                  alt="Chính sách thanh toán"
+                  src={PaymentImage}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Chính sách thanh toán tại I.C.H

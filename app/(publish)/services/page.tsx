@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { BsArrowUpRight } from "react-icons/bs";
+import PublicImage from "@/images/cong-bo-my-pham-3.jpg";
 const CustomerServices = () => {
   return (
     <section className="mt-[80px] max-w-7xl mx-auto px-5 py-6">
@@ -7,11 +8,10 @@ const CustomerServices = () => {
         <div>
           <div className="relative ">
             <Image
+              priority
               className="w-full h-[300px]"
-              width={600}
-              height={300}
-              alt=""
-              src="/images/cong-bo-my-pham-3.jpg"
+              alt="Công bố mỹ phẩm"
+              src={PublicImage}
             />
             <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-[#1212125c] backdrop-blur-sm text-white p-3">
               <div className="flex justify-between items-center h-full">
@@ -44,11 +44,10 @@ const CustomerServices = () => {
         <div>
           <div className="relative">
             <Image
+              priority
               className="w-full h-[300px]"
-              width={600}
-              height={300}
-              alt=""
-              src="/images/cong-bo-my-pham-3.jpg"
+              alt="Công bố mỹ phẩm"
+              src={PublicImage}
             />
             <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-[#1212125c] backdrop-blur-sm text-white p-3">
               <div className="flex justify-between items-center h-full">

@@ -1,4 +1,7 @@
 import Image from "next/image";
+import BaoBi1 from "@/images/thiet-ke-bao-bi-my-pham-1.jpg";
+import BaoBi2 from "@/images/thiet-ke-bao-bi-my-pham-2.jpg";
+import BaoBi3 from "@/images/thiet-ke-bao-bi-my-pham-3.jpg";
 
 const BarcodeRegistration = () => {
   return (
@@ -34,11 +37,10 @@ const BarcodeRegistration = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/thiet-ke-bao-bi-my-pham-1.jpg"
-                  width={600}
-                  height={382}
+                  alt="Thiết kế bao bì mỹ phẩm"
+                  src={BaoBi1}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Thiết kế bao bì mỹ phẩm có quan trọng không
@@ -86,11 +88,10 @@ const BarcodeRegistration = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/thiet-ke-bao-bi-my-pham-2.jpg"
-                  width={600}
-                  height={382}
+                  alt="Thiết kế bao bì mỹ phẩm"
+                  src={BaoBi2}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Thiết kế bao bì đẹp sẽ thu hút được khách hàng{" "}
@@ -131,11 +132,10 @@ const BarcodeRegistration = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/thiet-ke-bao-bi-my-pham-3.jpg"
-                  width={600}
-                  height={382}
+                  alt="Thiet ke bao bi my pham"
+                  src={BaoBi3}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Doanh nghiệp cần đầu tư vào bao bì sản phẩm

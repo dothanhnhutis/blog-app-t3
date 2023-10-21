@@ -11,7 +11,7 @@ const SideBarAction = ({ type, data }: SiderBarActionType) => {
   if (type === "number") {
     const { icon, name, path, count } = data;
     return (
-      <Link href={path} className="relative group">
+      <Link prefetch={false} href={path} className="relative group">
         <div
           className={`relative flex items-center justify-center px-[10px] py-2 mb-0.5 rounded-lg${
             pathName === path
@@ -80,7 +80,7 @@ const SideBarAction = ({ type, data }: SiderBarActionType) => {
                   <ul className={`overflow-hidden`}>
                     {list.map((l, index) => (
                       <li key={index}>
-                        <Link href={l.path}>
+                        <Link prefetch={false} href={l.path}>
                           <div
                             className={`flex items-center justify-center px-[10px] py-2 mb-0.5 rounded-lg${
                               pathName === l.path
@@ -125,7 +125,7 @@ const SideBarAction = ({ type, data }: SiderBarActionType) => {
               <ul>
                 {list.map((l, index) => (
                   <li key={index}>
-                    <Link href={l.path}>
+                    <Link prefetch={false} href={l.path}>
                       <div
                         className={`flex items-center justify-center px-2 py-1 mb-0.5 rounded-lg${
                           pathName === l.path
@@ -149,7 +149,7 @@ const SideBarAction = ({ type, data }: SiderBarActionType) => {
   }
   const { icon, name, path } = data;
   return (
-    <Link href={path} className="relative group">
+    <Link prefetch={false} href={path} className="relative group">
       <div
         className={`flex items-center justify-center px-[10px] py-2 mb-0.5 rounded-lg${
           pathName === path

@@ -1,4 +1,7 @@
 import Image from "next/image";
+import ProtectedBrandImage3 from "@/images/dang-ky-bao-ho-thuong-hieu-3.jpg";
+import ProtectedBrandImage1 from "@/images/dang-ky-bao-ho-thuong-hieu-1.jpg";
+import ProtectedBrandImage2 from "@/images/dang-ky-bao-ho-thuong-hieu-2.jpg";
 
 const ProtectBrand = () => {
   return (
@@ -40,11 +43,10 @@ const ProtectBrand = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/dang-ky-bao-ho-thuong-hieu-3.jpg"
-                  width={600}
-                  height={382}
+                  alt="Bảo vệ thương hiệu"
+                  src={ProtectedBrandImage3}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Đăng ký bảo hộ thương hiệu là gì
@@ -88,11 +90,10 @@ const ProtectBrand = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/dang-ky-bao-ho-thuong-hieu-1.jpg"
-                  width={600}
-                  height={382}
+                  alt="Bảo vệ thương hiệu"
+                  src={ProtectedBrandImage1}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Những lợi ích khi đăng ký bảo hộ thương hiêu
@@ -183,11 +184,10 @@ const ProtectBrand = () => {
             <div className="flex items-center justify-center">
               <div>
                 <Image
+                  priority
                   className="inline-block align-middle max-w-full"
-                  alt=""
-                  src="/images/dang-ky-bao-ho-thuong-hieu-2.jpg"
-                  width={600}
-                  height={382}
+                  alt="Bảo vệ thương hiệu"
+                  src={ProtectedBrandImage2}
                 />
                 <figcaption className="italic text-center text-sm p-2 bg-gray-50/70 ">
                   Các bước đăng ký bảo hộ thương hiệu chuẩn nhất

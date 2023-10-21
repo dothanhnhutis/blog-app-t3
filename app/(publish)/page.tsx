@@ -2,15 +2,15 @@ import { cosmeticProcessing, products, whyToBook } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { AiFillStar } from "react-icons/ai";
+import Bg from "@/images/bg.jpg";
 const Home = () => {
   return (
     <>
       <section className="relative z-[3]">
         <Image
-          src="/images/bg.jpg"
+          src={Bg}
           alt="background"
-          height="1400"
-          width="1920"
+          priority
           className="md:h-[720px] h-[500px] w-full"
         />
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-white from-15% md:from-5% xl:from-20%">
@@ -26,6 +26,7 @@ const Home = () => {
               </p>
 
               <Link
+                prefetch={false}
                 href="/contact"
                 className="text-white bg-blue-500 text-sm font-normal p-2 rounded mt-2 md:px-4 md:py-2 md:rounded-md md:mt-6 "
               >
@@ -47,6 +48,7 @@ const Home = () => {
                 className="group flex justify-center items-center flex-col rounded-2xl drop-shadow-card overflow-hidden "
               >
                 <Link
+                  prefetch={false}
                   href={link}
                   className="flex justify-center items-center relative w-full h-full"
                 >
@@ -54,8 +56,7 @@ const Home = () => {
                     className="w-full h-full object-cover rounded-2xl group-hover:scale-x-110 transition-all duration-300 ease-ease"
                     src={image}
                     alt="product"
-                    width={600}
-                    height={400}
+                    priority
                   />
                   <div className="absolute left-0 top-2/3 right-0 bottom-0 flex justify-center items-center bg-gradient-to-t from-black/80 ">
                     <span className="text-white uppercase text-[18px] font-bold">
@@ -67,6 +68,7 @@ const Home = () => {
             ))}
           </div>
           <Link
+            prefetch={false}
             href="/contact"
             className="text-white  bg-blue-500 text-sm font-normal p-2 rounded mt-6 md:px-4 md:py-2 md:rounded-md"
           >
@@ -90,6 +92,7 @@ const Home = () => {
                 việc trong Lĩnh Vực.
               </p>
               <Link
+                prefetch={false}
                 href="/"
                 className="text-white bg-blue-500 text-sm font-normal p-2 rounded mt-2 md:px-4 md:py-2 md:rounded-md md:mt-6 "
               >
@@ -97,12 +100,7 @@ const Home = () => {
               </Link>
             </div>
             <div className="basis-full md:basis-1/2 ">
-              <Image
-                src="/images/bg.jpg"
-                alt="office-image"
-                width={900}
-                height={600}
-              />
+              <Image src={Bg} alt="office-image" priority />
             </div>
           </div>
         </div>
@@ -185,6 +183,7 @@ const Home = () => {
                 className="group flex justify-center items-center flex-col drop-shadow-card overflow-hidden shadow-md bg-white"
               >
                 <Link
+                  prefetch={false}
                   href={link}
                   className="flex items-center flex-col relative w-full h-full p-2"
                 >
@@ -192,8 +191,7 @@ const Home = () => {
                     className="w-full h-full object-cover transition-all duration-300 ease-ease"
                     src={image}
                     alt="product"
-                    width={600}
-                    height={400}
+                    priority
                   />
                   <p className="group-hover:text-blue-400 pt-[15px] pb-[17px] w-full px-[7px] text-small ">
                     <span className="line-clamp-2 overflow-hidden">
@@ -207,6 +205,7 @@ const Home = () => {
             ))}
           </div>
           <Link
+            prefetch={false}
             href="/contact"
             className="text-white  bg-blue-500 text-sm font-normal p-2 rounded mt-2 md:px-4 md:py-2 md:rounded-md md:mt-6 "
           >
