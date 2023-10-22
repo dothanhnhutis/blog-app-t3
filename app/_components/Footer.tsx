@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { BsBookmarkFill } from "react-icons/bs";
 import { MdMail } from "react-icons/md";
+import LogoImage from "@/images/logo.png";
 
 const Footer = () => {
   return (
@@ -17,11 +18,11 @@ const Footer = () => {
       <section className="flex flex-col md:flex-row p-5 md:space-x-3 max-w-7xl mx-auto">
         <div className="md:basis-1/4 flex flex-col items-center">
           <Image
-            priority
-            src="/images/logo.png"
+            src={LogoImage}
             width={110}
             height={110}
-            alt="Logo"
+            priority
+            alt="I.C.H logo"
           />
           <p className="font-bold text-lg pb-1 text-blue-900 pt-2 text-center uppercase">
             CÔNG TY TNHH MTV TM SẢN XUẤT I.C.H

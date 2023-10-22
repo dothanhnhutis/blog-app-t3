@@ -7,7 +7,7 @@ import { z } from "zod";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 
 import { signIn } from "next-auth/react";
-import { trpc } from "@/app/api/_trpc/client";
+import { trpc } from "@/app/_trpc/client";
 import InputAuth from "@/app/_components/InputAuth";
 import useCountDown from "@/hook/useCountDown";
 

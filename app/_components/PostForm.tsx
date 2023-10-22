@@ -17,7 +17,9 @@ import Model, { ModelHandle } from "./Model";
 import { BsUpload } from "react-icons/bs";
 import { BiUpload } from "react-icons/bi";
 import { CiImageOn } from "react-icons/ci";
-import { trpc } from "../api/_trpc/client";
+import { trpc } from "../_trpc/client";
+import { withReact } from "slate-react";
+import { Transforms, createEditor } from "slate";
 
 const people = [
   { id: 1, name: "Wade Cooper" },
@@ -30,7 +32,7 @@ const people = [
 type PostData = {
   thumnail: string;
   title: string;
-  author: string;
+  authorId: string;
   content: string;
 };
 type Props = {
@@ -39,34 +41,49 @@ type Props = {
   data?: PostData;
 };
 
-const CreatePostForm = ({ session, type, data }: Props) => {
+const PostForm = ({ session, type, data }: Props) => {
+  const editor = React.useMemo(() => withReact(createEditor()), []);
   const [form, setForm] = useState<PostData>({
     thumnail: "https://source.unsplash.com/kFrdX5IeQzI",
-    title: "",
-    author: session.user.id,
+    title: "dasda",
+    authorId: session.user.id,
     content: JSON.stringify([{ type: "paragraph", children: [{ text: "" }] }]),
   });
 
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
+
   const postMutation = trpc.posts.create.useMutation({
     onSuccess: (data) => {
-      if (!data) {
-        console.log("create Post fail");
-      } else {
-        setForm({
-          thumnail: "",
-          title: "",
-          author: session.user.id,
-          content: JSON.stringify([
-            { type: "paragraph", children: [{ text: "" }] },
-          ]),
-        });
-      }
+      // clear slate content
+      // editor.children.map(() => {
+      //   Transforms.delete(editor, { at: [0] });
+      // });
+      // const point = { path: [0, 0], offset: 0 };
+      // editor.selection = { anchor: point, focus: point };
+      // editor.history = { redos: [], undos: [] };
+      // editor.children = [
+      //   {
+      //     type: "paragraph",
+      //     children: [{ text: "" }],
+      //   },
+      // ];
+      // console.log(1111);
+      // setForm((prev) => ({
+      //   ...prev,
+      //   author: session.user.id,
+      //   content: JSON.stringify([
+      //     { type: "paragraph", children: [{ text: "" }] },
+      //   ]),
+      //   thumnail: "",
+      //   title: "111111",
+      // }));
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    postMutation.mutate({ title: form.title, content: form.content });
+  const handleSubmit = () => {
+    postMutation.mutate(form);
   };
 
   const handleOnchangeThumnail = (e: ChangeEvent<HTMLInputElement>) => {
@@ -85,10 +102,6 @@ const CreatePostForm = ({ session, type, data }: Props) => {
     };
   };
 
-  useEffect(() => {
-    console.log(form.thumnail);
-  }, [form]);
-
   const [selected, setSelected] = React.useState(people[0]);
   const [query, setQuery] = React.useState("");
 
@@ -106,10 +119,7 @@ const CreatePostForm = ({ session, type, data }: Props) => {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit}
-        className="mt-6 p-6 rounded-lg overflow-hidden border-gray-200 border-[1px]"
-      >
+      <div className="mt-6 p-6 rounded-lg overflow-hidden border-gray-200 border-[1px]">
         <h3 className="font-bold text-xl text-gray-600 mb-4">
           Tạo Bài Đăng Mới
         </h3>
@@ -280,6 +290,7 @@ const CreatePostForm = ({ session, type, data }: Props) => {
             Tiêu đề
           </label>
           <input
+            value={form.title}
             className="border-[1px] border-gray-300 rounded-lg p-2 w-full mb-4 mt-2"
             type="text"
             id="title"
@@ -291,6 +302,7 @@ const CreatePostForm = ({ session, type, data }: Props) => {
         <p className="block text-lg font-medium">Nội dung</p>
 
         <RichTextEditor
+          editor={editor}
           init={JSON.parse(form.content)}
           onChange={(data) =>
             setForm({ ...form, content: JSON.stringify(data) })
@@ -304,14 +316,21 @@ const CreatePostForm = ({ session, type, data }: Props) => {
           >
             Huỷ
           </button>
-          <button
-            type="submit"
-            className="px-3 py-2 bg-blue-500 rounded text-white hover:bg-blue-600 disabled:bg-blue-600/60"
-          >
-            Tạo
-          </button>
+          {postMutation.isLoading ? (
+            <p className="px-3 py-2 bg-blue-500 rounded text-white opacity-50">
+              creating...
+            </p>
+          ) : (
+            <button
+              onClick={() => handleSubmit()}
+              type="button"
+              className="px-3 py-2 bg-blue-500 rounded text-white hover:bg-blue-600 disabled:bg-blue-600/60"
+            >
+              Tạo
+            </button>
+          )}
         </div>
-      </form>
+      </div>
       {/* <Model ref={refThumnail}>
         <p>Trung tâm phương tiện</p>
         <div className="grid grid-flow-row gap-2 grid-cols-5 overflow-y-scroll w-[550px] h-[300px] p-2 border rounded-md mt-4">
@@ -374,4 +393,4 @@ const CreatePostForm = ({ session, type, data }: Props) => {
   );
 };
 
-export default CreatePostForm;
+export default PostForm;

@@ -175,7 +175,13 @@ const NavBar = () => {
       )}
       <div className="flex justify-between px-5 py-2 items-center shadow xl:shadow-none max-w-7xl mx-auto bg-white">
         <Link prefetch={false} href="/">
-          <Image src={LogoImage} alt="I.C.H logo" />
+          <Image
+            src={LogoImage}
+            width={64}
+            height={64}
+            priority
+            alt="I.C.H logo"
+          />
         </Link>
 
         <div className="hidden md:block">

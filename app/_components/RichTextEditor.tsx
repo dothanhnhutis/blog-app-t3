@@ -31,7 +31,7 @@ import SlateMarkButton from "./SlateMarkButton";
 import SlateBlockButton from "./SlateBlockButton";
 
 import SlateHeaderDropDown from "./SlateHeaderDropDown";
-import SlateImage from "./SlateImage";
+// import SlateImage from "./SlateImage";
 import SlateImageBlock from "./SlateImageBlock";
 import Model, { ModelHandle } from "./Model";
 import { Tab } from "@headlessui/react";
@@ -144,11 +144,12 @@ const Leaf = ({ leaf, attributes, children }: RenderLeafProps) => {
 
 type Props = {
   init: Descendant[];
+  editor: SlateCustomEditor;
   onChange?: (value: Descendant[]) => void;
   readOnly?: boolean;
 };
 
-const CustomImageSlate = () => {
+const SlateImage = () => {
   const editor = useSlate();
   const refTest = useRef<ModelHandle>(null);
   const [data, setData] = useState<{ caption: string; image: string }>({
@@ -180,6 +181,10 @@ const CustomImageSlate = () => {
     };
     Transforms.insertNodes(editor, image);
     refTest.current?.setIsHidden(true);
+    setData({
+      caption: "",
+      image: "",
+    });
   };
   return (
     <>
@@ -254,30 +259,107 @@ const CustomImageSlate = () => {
                   )}
                 </label>
               </Tab.Panel>
+              <Tab.Panel>
+                <div className="grid grid-flow-row gap-2 grid-cols-5 overflow-y-scroll w-[550px] h-[300px] p-2 border rounded-md">
+                  <label
+                    htmlFor="thumbnail"
+                    className="flex flex-col items-center justify-center text-gray-400 py-2 cursor-pointer w-[100px] h-[100px] rounded border-dashed border-[2px] border-gray-300 mb-4"
+                  >
+                    <BsUpload size={24} />
+                    <p className="text-center font-medium text-sm">
+                      Tải ảnh lên
+                    </p>
+
+                    <input
+                      type="file"
+                      id="thumbnail"
+                      name="image"
+                      accept="image/*"
+                      className="hidden"
+                    />
+                  </label>
+                  <div
+                    onClick={() => {
+                      if (
+                        data.image === "https://source.unsplash.com/kFrdX5IeQzI"
+                      ) {
+                        setData({
+                          ...data,
+                          image: "",
+                        });
+                      } else {
+                        setData({
+                          ...data,
+                          image: "https://source.unsplash.com/kFrdX5IeQzI",
+                        });
+                      }
+                    }}
+                    className="relative group"
+                  >
+                    <div className="relative h-[100px] w-full rounded overflow-hidden">
+                      <Image
+                        alt="image"
+                        src="https://source.unsplash.com/kFrdX5IeQzI"
+                        fill
+                        sizes="100"
+                      />
+                    </div>
+                    <p>image name</p>
+                    <input
+                      checked={
+                        data.image === "https://source.unsplash.com/kFrdX5IeQzI"
+                      }
+                      className={`${
+                        data.image === "https://source.unsplash.com/kFrdX5IeQzI"
+                          ? ""
+                          : "hidden group-hover:block"
+                      } absolute top-0 left-0 mt-2 ml-2`}
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+              </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
+          <input
+            value={data.caption}
+            onChange={(e) => setData({ ...data, caption: e.target.value })}
+            className="rounded-md border p-2"
+            required
+            type="text"
+            placeholder="Tiêu đề"
+          />
+          <div className="flex justify-end space-x-2">
+            <button
+              onClick={() => {
+                refTest.current?.setIsHidden(true);
+              }}
+              type="button"
+              className="px-3 py-2 bg-red-500 rounded hover:bg-red-600 text-white disabled:bg-red-600/60"
+            >
+              Huỷ
+            </button>
+            {data.caption.length > 0 && data.image.length > 0 ? (
+              <button
+                onClick={handleAdd}
+                type="button"
+                className="px-3 py-2 bg-blue-500 rounded text-white hover:bg-blue-600 disabled:bg-blue-600/60"
+              >
+                Thêm
+              </button>
+            ) : (
+              <p className="px-3 py-2 bg-blue-500 rounded text-white bg-blue-600/60">
+                Thêm
+              </p>
+            )}
+          </div>
         </div>
-
-        {/* <input type="file" onChange={onchange} />
-        <input
-          type="text"
-          value={data.caption}
-          onChange={(e) =>
-            setData((prev) => ({ ...prev, caption: e.target.value }))
-          }
-        />
-
-        <button type="button" onClick={handleAdd}>
-          add
-        </button> */}
       </Model>
     </>
   );
 };
 
-const RichTextEditor = ({ init, readOnly, onChange }: Props) => {
-  const [editor] = React.useState(() => withReact(createEditor()));
-
+const RichTextEditor = ({ init, readOnly, onChange, editor }: Props) => {
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
     []
@@ -314,20 +396,19 @@ const RichTextEditor = ({ init, readOnly, onChange }: Props) => {
           <SlateMarkButton format="url" icon={<MdOutlineAddLink size={24} />} />
           {/* <SlateImage /> */}
 
-          <CustomImageSlate />
+          <SlateImage />
         </div>
 
-        <div className="border mt-4 h-[500px] overflow-scroll rounded-xl p-2">
-          <Editable
-            readOnly={readOnly}
-            spellCheck={false}
-            onKeyDown={(event) => {
-              // console.log(event.key);
-            }}
-            renderElement={renderElement}
-            renderLeaf={renderLeaf}
-          />
-        </div>
+        <Editable
+          className="border mt-4 h-[500px] overflow-scroll rounded-xl p-2"
+          readOnly={readOnly}
+          spellCheck={false}
+          onKeyDown={(event) => {
+            // console.log(event.key);
+          }}
+          renderElement={renderElement}
+          renderLeaf={renderLeaf}
+        />
       </div>
     </Slate>
   );

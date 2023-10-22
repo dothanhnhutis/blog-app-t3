@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,8 +7,11 @@ import { HiOutlineFolderPlus } from "react-icons/hi2";
 import { BsPlus } from "react-icons/bs";
 import PostCard from "@/app/_components/PostCard";
 import MediaChatImage from "@/images/mediachat.png";
+import { trpc } from "@/app/_trpc/client";
 
 const Posts = () => {
+  const user = trpc.posts.get.useQuery();
+  console.log(user.data);
   return (
     <>
       <div className="relative bg-[#ecf2ff] rounded-xl overflow-hidden px-[25px] pt-[30px] pb-5 mb-6">
