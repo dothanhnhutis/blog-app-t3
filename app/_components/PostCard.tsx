@@ -6,18 +6,39 @@ import { PiDotOutlineLight } from "react-icons/pi";
 
 import BlogImage from "@/images/blog-img1.jpg";
 import Avatar from "@/images/user-1.jpg";
+type Props = {
+  id: string;
+  thumnail: string;
+  title: string;
+  author: {
+    id: string;
+    avatarUrl: string | null;
+  };
+};
 
 const PostCard = () => {
   return (
     <div className="lg:basis-1/3 lg:max-w-1/3 sm:basis-1/2 sm:max-w-1/2 pt-6 pl-6">
       <div className="bg-white rounded-xl overflow-hidden shadow [transition:box-shadow_300ms_cubic-bezier(0.4, 0, 0.2, 1)_0ms] hover:scale-[1.01] hover:[transition:0.1s_ease-in]">
-        <Link prefetch={false} href="">
-          <Image priority src={BlogImage} alt="mediachat" />
+        <Link prefetch={false} href="" className="h-[240px]">
+          <Image
+            priority
+            src={BlogImage}
+            width={1080}
+            height={720}
+            alt="mediachat"
+          />
         </Link>
 
         <div className="relative p-6">
           <div className="w-10 h-10 overflow-hidden rounded-full absolute -top-[20px]">
-            <Image priority src={Avatar} alt="mediachat" />
+            <Image
+              priority
+              src={Avatar}
+              width={40}
+              height={40}
+              alt="mediachat"
+            />
           </div>
 
           <div className="absolute -top-[35px] right-6 bg-white rounded-xl">

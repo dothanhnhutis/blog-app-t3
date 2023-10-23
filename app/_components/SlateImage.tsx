@@ -12,14 +12,13 @@ import { useSlate } from "slate-react";
 
 const SlateImage = () => {
   const editor = useSlate();
-  const ref = useRef<ModelHandle>(null);
+  const refTest = useRef<ModelHandle>(null);
   const [data, setData] = useState<{ caption: string; image: string }>({
     caption: "",
     image: "",
   });
 
-  const handleOnchang = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+  const onchange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.includes("image")) {
@@ -33,34 +32,27 @@ const SlateImage = () => {
       setData((prev) => ({ ...prev, image: result }));
     };
   };
-
-  const handleAddBtn = () => {
-    if (data.caption.length > 0 && data.image.length > 0) {
-      const text = { text: "" };
-      const image: SlateBlockImage = {
-        type: "image",
-        url: data.image,
-        caption: data.caption,
-        children: [text],
-      };
-      Transforms.insertNodes(editor, image);
-      ref.current?.setIsHidden(true);
-      setData({
-        caption: "",
-        image: "",
-      });
-    }
+  const handleAdd = () => {
+    const text = { text: "" };
+    const image: SlateBlockImage = {
+      type: "image",
+      url: data.image,
+      caption: data.caption,
+      children: [text],
+    };
+    Transforms.insertNodes(editor, image);
+    refTest.current?.setIsHidden(true);
+    setData({
+      caption: "",
+      image: "",
+    });
   };
-
   return (
     <>
       <button
+        type="button"
         onClick={() => {
-          ref.current?.setIsHidden(false);
-          setData({
-            caption: "",
-            image: "",
-          });
+          refTest.current?.setIsHidden(false);
         }}
         className={`p-2 rounded-full cursor-pointer ${
           false
@@ -70,7 +62,7 @@ const SlateImage = () => {
       >
         <MdAddPhotoAlternate size={24} />
       </button>
-      <Model ref={ref}>
+      <Model ref={refTest}>
         <div className="flex flex-col space-y-2">
           <p className="text-base font-medium mb-2">Thêm ảnh</p>
           <Tab.Group>
@@ -119,7 +111,7 @@ const SlateImage = () => {
                     name="slate-image"
                     accept="image/*"
                     className="hidden"
-                    onChange={handleOnchang}
+                    onChange={onchange}
                   />
                   {data.image && (
                     <div className="relative object-contain w-[300px] h-[300px]">
@@ -196,13 +188,12 @@ const SlateImage = () => {
             className="rounded-md border p-2"
             required
             type="text"
-            name=""
             placeholder="Tiêu đề"
           />
           <div className="flex justify-end space-x-2">
             <button
               onClick={() => {
-                ref.current?.setIsHidden(true);
+                refTest.current?.setIsHidden(true);
               }}
               type="button"
               className="px-3 py-2 bg-red-500 rounded hover:bg-red-600 text-white disabled:bg-red-600/60"
@@ -211,7 +202,7 @@ const SlateImage = () => {
             </button>
             {data.caption.length > 0 && data.image.length > 0 ? (
               <button
-                onClick={() => handleAddBtn()}
+                onClick={handleAdd}
                 type="button"
                 className="px-3 py-2 bg-blue-500 rounded text-white hover:bg-blue-600 disabled:bg-blue-600/60"
               >

@@ -11,6 +11,7 @@ export const userRouter = router({
       });
       return user;
     }),
+
   create: publicProcedure
     .input(
       z.object({
@@ -46,8 +47,11 @@ export const userRouter = router({
         data: {
           email: input.email,
           password: hash,
-          username: input.email,
-          avatarUrl: "",
+          userPreference: {
+            create: {
+              username: input.email,
+            },
+          },
         },
       });
       await ctx.prisma.otp.update({

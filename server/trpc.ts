@@ -26,6 +26,7 @@ export const createTRPCContext = async (opts: { req: NextRequest }) => {
 const t = initTRPC
   .context<inferAsyncReturnType<typeof createTRPCContext>>()
   .create();
+
 export const router = t.router;
 export const publicProcedure = t.procedure;
 

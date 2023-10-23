@@ -49,7 +49,6 @@ export const authOptions: NextAuthOptions = {
         },
         secret
       );
-
       return encodedToken;
     },
     decode: async ({ secret, token }) => {
@@ -62,13 +61,18 @@ export const authOptions: NextAuthOptions = {
       const userExist = await prisma.user.findUnique({
         where: { email: user.email! },
       });
+
       if (!userExist)
         await prisma.user.create({
           data: {
             email: user.email!,
-            username: user.email!,
             password: "",
-            avatarUrl: user.image!,
+            userPreference: {
+              create: {
+                username: user.email!,
+                avatarUrl: user.image!,
+              },
+            },
           },
         });
       return true;
@@ -76,8 +80,12 @@ export const authOptions: NextAuthOptions = {
     async session({ session }) {
       try {
         const user = await prisma.user.findUnique({
-          where: { email: session.user?.email! },
+          where: { email: session.user?.email!, status: "ACTIVE" },
+          include: {
+            userPreference: true,
+          },
         });
+
         const newSession = {
           ...session,
           user: {

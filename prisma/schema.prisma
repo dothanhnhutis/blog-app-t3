@@ -8,30 +8,53 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  username  String
-  email     String   @unique
-  password  String?
-  avatarUrl String?
-  role      Role     @default(SUBSCRIBER)
-  status    Status   @default(ACTIVE)
-  createAt  DateTime @default(now())
-  updateAt  DateTime @updatedAt
-  posts     Post[]
+  id               String          @id @default(uuid())
+  email            String          @unique
+  password         String?
+  role             Role            @default(SUBSCRIBER)
+  status           Status          @default(ACTIVE)
+  createAt         DateTime        @default(now())
+  updateAt         DateTime        @updatedAt
+  posts            Post[]
+  userPreference   UserPreference? @relation(fields: [userPreferenceId], references: [id])
+  userPreferenceId String?         @unique
 
   @@index([email])
 }
 
+model UserPreference {
+  id        String   @id @default(uuid())
+  username  String
+  bio       String   @default("")
+  links     String[]
+  phone     String   @default("")
+  avatarUrl String?
+  address   String   @default("")
+  user      User?
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
 model Post {
-  id       String   @id @default(uuid())
-  title    String
-  thumnail String?
-  // slug      String @unique
-  content  String
-  author   User     @relation(fields: [authorId], references: [id])
-  authorId String
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  name       String
+  thumnail   String
+  slug       String   @unique
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+  content    String
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   String
+  createAt   DateTime @default(now())
+  updateAt   DateTime @updatedAt
+
+  @@index([slug, categoryId, name])
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+  Post Post[]
 }
 
 model Otp {

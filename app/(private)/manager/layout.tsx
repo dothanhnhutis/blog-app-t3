@@ -5,6 +5,7 @@ import React from "react";
 
 const ManagerLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerAuthSession();
+
   if (!session) {
     return redirect("/auth/signin");
   }

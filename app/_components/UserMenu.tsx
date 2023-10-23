@@ -19,9 +19,9 @@ const UserMenu = ({ session }: { session: SessionInterface }) => {
             width={96}
             height={96}
             src={
-              session.user.avatarUrl === ""
+              session.user.userPreference.avatarUrl === ""
                 ? UserAvatar
-                : session.user.avatarUrl
+                : session.user.userPreference.avatarUrl
             }
             alt="User Avatar"
           />
@@ -44,9 +44,9 @@ const UserMenu = ({ session }: { session: SessionInterface }) => {
                 width={96}
                 height={96}
                 src={
-                  session.user.avatarUrl === ""
+                  session.user.userPreference.avatarUrl === ""
                     ? UserAvatar
-                    : session.user.avatarUrl
+                    : session.user.userPreference.avatarUrl
                 }
                 alt="User Avatar"
               />
@@ -54,15 +54,15 @@ const UserMenu = ({ session }: { session: SessionInterface }) => {
 
             <div className="w-full overflow-hidden">
               <p className="font-medium text-lg">
-                {`${session?.user?.username ?? ""}`}
+                {`${session.user.userPreference.username ?? ""}`}
               </p>
               <p className="font-normal text-base text-gray-500">
-                {`${session?.user?.role ?? ""}`}
+                {`${session.user.role ?? ""}`}
               </p>
               <div className="flex items-center space-x-2 text-gray-500 w-full">
                 <HiOutlineMail size={20} />
                 <p className="text-base truncate">{`${
-                  session?.user?.email ?? ""
+                  session.user.email ?? ""
                 }`}</p>
               </div>
             </div>

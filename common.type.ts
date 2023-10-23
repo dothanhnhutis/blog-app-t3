@@ -75,10 +75,12 @@ export type OTPSearch = {
 export interface SessionInterface extends Session {
   user: User & {
     id: string;
-    role: string;
-    username: string;
     email: string;
-    avatarUrl: string;
+    role: string;
+    userPreference: {
+      username: string;
+      avatarUrl: string;
+    };
   };
 }
 

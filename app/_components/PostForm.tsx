@@ -19,7 +19,7 @@ import { BiUpload } from "react-icons/bi";
 import { CiImageOn } from "react-icons/ci";
 import { trpc } from "../_trpc/client";
 import { withReact } from "slate-react";
-import { Transforms, createEditor } from "slate";
+import { Descendant, Transforms, createEditor } from "slate";
 
 const people = [
   { id: 1, name: "Wade Cooper" },
@@ -45,9 +45,11 @@ const PostForm = ({ session, type, data }: Props) => {
   const editor = React.useMemo(() => withReact(createEditor()), []);
   const [form, setForm] = useState<PostData>({
     thumnail: "https://source.unsplash.com/kFrdX5IeQzI",
-    title: "dasda",
+    title: "test",
     authorId: session.user.id,
-    content: JSON.stringify([{ type: "paragraph", children: [{ text: "" }] }]),
+    content: JSON.stringify([
+      { type: "paragraph", children: [{ text: "test" }] },
+    ]),
   });
 
   useEffect(() => {
@@ -56,20 +58,7 @@ const PostForm = ({ session, type, data }: Props) => {
 
   const postMutation = trpc.posts.create.useMutation({
     onSuccess: (data) => {
-      // clear slate content
-      // editor.children.map(() => {
-      //   Transforms.delete(editor, { at: [0] });
-      // });
-      // const point = { path: [0, 0], offset: 0 };
-      // editor.selection = { anchor: point, focus: point };
-      // editor.history = { redos: [], undos: [] };
-      // editor.children = [
-      //   {
-      //     type: "paragraph",
-      //     children: [{ text: "" }],
-      //   },
-      // ];
-      // console.log(1111);
+      console.log(data);
       // setForm((prev) => ({
       //   ...prev,
       //   author: session.user.id,
@@ -77,13 +66,29 @@ const PostForm = ({ session, type, data }: Props) => {
       //     { type: "paragraph", children: [{ text: "" }] },
       //   ]),
       //   thumnail: "",
-      //   title: "111111",
+      //   title: "",
       // }));
     },
   });
 
   const handleSubmit = () => {
-    postMutation.mutate(form);
+    Transforms.removeNodes(editor, {
+      at: [0],
+    });
+    // postMutation.mutate(form);
+    // clear slate content
+    // editor.children.map(() => {
+    //   Transforms.delete(editor, { at: [0] });
+    // });
+    // const point = { path: [0, 0], offset: 0 };
+    // editor.selection = { anchor: point, focus: point };
+    // editor.history = { redos: [], undos: [] };
+    // editor.children = [
+    //   {
+    //     type: "paragraph",
+    //     children: [{ text: "" }],
+    //   },
+    // ];
   };
 
   const handleOnchangeThumnail = (e: ChangeEvent<HTMLInputElement>) => {
@@ -266,9 +271,9 @@ const PostForm = ({ session, type, data }: Props) => {
                 width={96}
                 height={96}
                 src={
-                  session.user.avatarUrl === ""
+                  session.user.userPreference.avatarUrl === ""
                     ? UserAvatar
-                    : session.user.avatarUrl
+                    : session.user.userPreference.avatarUrl
                 }
                 alt="User Avatar"
               />
@@ -276,7 +281,7 @@ const PostForm = ({ session, type, data }: Props) => {
 
             <div className="w-full overflow-hidden">
               <p className="font-medium text-md">
-                {`${session.user.username ?? ""}`}
+                {`${session.user.userPreference.username ?? ""}`}
               </p>
               <p className="font-normal text-sm text-gray-500">
                 {`${session.user.role ?? ""}`}

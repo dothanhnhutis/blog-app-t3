@@ -10,8 +10,8 @@ import MediaChatImage from "@/images/mediachat.png";
 import { trpc } from "@/app/_trpc/client";
 
 const Posts = () => {
-  const user = trpc.posts.get.useQuery();
-  console.log(user.data);
+  // const posts = trpc.posts.get.useQuery();
+  // console.log(posts.data);
   return (
     <>
       <div className="relative bg-[#ecf2ff] rounded-xl overflow-hidden px-[25px] pt-[30px] pb-5 mb-6">
@@ -21,6 +21,14 @@ const Posts = () => {
           <Image priority src={MediaChatImage} alt="mediachat" />
         </div>
       </div>
+
+      <div className="flex flex-wrap -mt-6 -ml-6">
+        <PostCard />
+        <PostCard />
+        <PostCard />
+        <PostCard />
+      </div>
+
       <div className="flex flex-col space-y-1 items-center justify-center text-gray-400">
         <HiOutlineFolderPlus size={40} />
         <p className="text-black text-md font-medium">No posts</p>
@@ -34,13 +42,7 @@ const Posts = () => {
           <p className="font-bold text-base">New Post</p>
         </Link>
       </div>
-      <br />
-      <div className="flex flex-wrap -mt-6 -ml-6">
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-      </div>
+
       <div className="flex items-center justify-center mt-6">
         <nav>
           <ul className="flex items-center justify-center space-x-1">
