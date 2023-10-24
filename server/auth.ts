@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
     },
     decode: async ({ secret, token }) => {
       const decodedToken = jsonwebtoken.verify(token!, secret);
+
       return decodedToken as JWT;
     },
   },
@@ -85,7 +86,6 @@ export const authOptions: NextAuthOptions = {
             userPreference: true,
           },
         });
-
         const newSession = {
           ...session,
           user: {

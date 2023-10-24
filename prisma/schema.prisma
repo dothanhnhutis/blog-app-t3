@@ -8,16 +8,15 @@ datasource db {
 }
 
 model User {
-  id               String          @id @default(uuid())
-  email            String          @unique
-  password         String?
-  role             Role            @default(SUBSCRIBER)
-  status           Status          @default(ACTIVE)
-  createAt         DateTime        @default(now())
-  updateAt         DateTime        @updatedAt
-  posts            Post[]
-  userPreference   UserPreference? @relation(fields: [userPreferenceId], references: [id])
-  userPreferenceId String?         @unique
+  id             String          @id @default(uuid())
+  email          String          @unique
+  password       String?
+  role           Role            @default(SUBSCRIBER)
+  status         Status          @default(ACTIVE)
+  createAt       DateTime        @default(now())
+  updateAt       DateTime        @updatedAt
+  posts          Post[]
+  userPreference UserPreference?
 
   @@index([email])
 }
@@ -30,9 +29,18 @@ model UserPreference {
   phone     String   @default("")
   avatarUrl String?
   address   String   @default("")
-  user      User?
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
   createAt  DateTime @default(now())
   updateAt  DateTime @updatedAt
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+  post Post[]
+
+  @@index([name])
 }
 
 model Post {
@@ -40,21 +48,15 @@ model Post {
   name       String
   thumnail   String
   slug       String   @unique
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
   content    String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
   author     User     @relation(fields: [authorId], references: [id])
   authorId   String
   createAt   DateTime @default(now())
   updateAt   DateTime @updatedAt
 
-  @@index([slug, categoryId, name])
-}
-
-model Category {
-  id   String @id @default(uuid())
-  name String
-  Post Post[]
+  @@index([name, slug, categoryId, authorId])
 }
 
 model Otp {
@@ -66,6 +68,7 @@ model Otp {
   expireAt DateTime
 
   @@unique([code, email])
+  @@index([code, email])
 }
 
 enum Role {

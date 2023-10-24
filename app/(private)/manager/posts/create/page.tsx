@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { getServerAuthSession } from "@/server/auth";
 import MediaChatImage from "@/images/mediachat.png";
-import PostForm from "@/app/_components/PostForm";
+import PostForm1 from "@/app/_components/PostForm1";
 
 const CreateNewPost = async () => {
   const session = await getServerAuthSession();
@@ -16,7 +16,7 @@ const CreateNewPost = async () => {
           <Image priority src={MediaChatImage} alt="mediachat" />
         </div>
       </div>
-      <PostForm session={session} type="create" />
+      <PostForm1 session={session} type="create" />
     </div>
   );
 };
